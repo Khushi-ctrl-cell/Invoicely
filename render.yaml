@@ -1,0 +1,29 @@
+services:
+  - type: web
+    name: invoice-generator-api
+    env: node
+    plan: free
+    buildCommand: npm install
+    startCommand: npm start
+    healthCheckPath: /health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000
+      - key: MONGO_URI
+        sync: false
+      - key: ALLOWED_ORIGINS
+        sync: false
+      - key: COMPANY_NAME
+        sync: false
+      - key: COMPANY_ADDRESS
+        sync: false
+      - key: COMPANY_EMAIL
+        sync: false
+      - key: COMPANY_PHONE
+        sync: false
+      - key: COMPANY_GSTIN
+        sync: false
+      - key: COMPANY_PAN
+        sync: false
