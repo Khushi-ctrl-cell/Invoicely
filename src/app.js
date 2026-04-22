@@ -19,7 +19,16 @@ app.use(
 
 // ── CORS ─────────────────────────────────────────────────────────────────────
 const cors = require("cors");
-app.use(cors());
+
+app.use(cors({
+  origin: [
+    "http://localhost:5173",
+    "https://glyph-invoice.vercel.app",
+    "https://lovable.dev"
+  ],
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  credentials: true
+}));
 
 // ── Body parsing ─────────────────────────────────────────────────────────────
 app.use(express.json({ limit: "10mb" }));
