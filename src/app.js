@@ -58,6 +58,11 @@ app.get("/health", (req, res) => {
   });
 });
 
+// ── Root route ─────────────────────────────────────────────
+app.get("/", (req, res) => {
+  res.send("API is running 🚀");
+});
+
 // ── API Routes ────────────────────────────────────────────────────────────────
 app.use("/api/items", itemRoutes);
 app.use("/api/invoices", invoiceRoutes);
