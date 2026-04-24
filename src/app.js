@@ -10,36 +10,27 @@ const notFound = require("./middleware/notFound");
 
 const app = express();
 
-// ── Security ────────────────────────────────────────────────────────────────
+/* ── Security ───────────────────────────────────────── */
 app.use(
   helmet({
     crossOriginResourcePolicy: { policy: "cross-origin" },
   })
 );
 
-// ── CORS ─────────────────────────────────────────────────────────────────────
-const cors = require("cors");
+/* ── ✅ CORS FIX (IMPORTANT) ───────────────────────── */
+// 🔥 SIMPLE — sab frontend allow (no error)
+app.use(cors());
 
-app.use(cors({
-  origin: [
-    "http://localhost:5173",
-    "https://glyph-invoice.vercel.app",
-    "https://lovable.dev"
-  ],
-  methods: ["GET", "POST", "PUT", "DELETE"],
-  credentials: true
-}));
-
-// ── Body parsing ─────────────────────────────────────────────────────────────
+/* ── Body parsing ─────────────────────────────────── */
 app.use(express.json({ limit: "10mb" }));
 app.use(express.urlencoded({ extended: true, limit: "10mb" }));
 
-// ── Logging ──────────────────────────────────────────────────────────────────
+/* ── Logging ──────────────────────────────────────── */
 if (process.env.NODE_ENV !== "test") {
   app.use(morgan(process.env.NODE_ENV === "production" ? "combined" : "dev"));
 }
 
-// ── Health check ─────────────────────────────────────────────────────────────
+/* ── Health check ─────────────────────────────────── */
 app.get("/health", (req, res) => {
   res.json({
     status: "ok",
@@ -50,16 +41,16 @@ app.get("/health", (req, res) => {
   });
 });
 
-// ── Root route ─────────────────────────────────────────────
+/* ── Root route ───────────────────────────────────── */
 app.get("/", (req, res) => {
   res.send("API is running 🚀");
 });
 
-// ── API Routes ────────────────────────────────────────────────────────────────
+/* ── API Routes ───────────────────────────────────── */
 app.use("/api/items", itemRoutes);
 app.use("/api/invoices", invoiceRoutes);
 
-// ── 404 + Error handlers ──────────────────────────────────────────────────────
+/* ── 404 + Error handlers ─────────────────────────── */
 app.use(notFound);
 app.use(errorHandler);
 
